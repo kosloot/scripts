@@ -1,0 +1,48 @@
+#! /bin/bash
+
+echo "Rebuilding ALL"
+wd=`pwd`
+prefix="${wd}/../usr/local/"
+
+dirs='ticcutils timbl timblserver mbt mbtserver dimbl libfolia ucto frogdata frog foliatools ticcltools toad wopr tscan'
+exes='timbl timblserver mbt mbtserver dimbl ucto frog FoLiA-stats FoLiA-alto FoLiA-hocr TICCL-lexclean TICCL-indexerNT wopr tscan'
+
+#sanity check
+for app in $dirs
+do
+    if ! test -d $app
+    then
+	echo "$app dir not found. Could become troublesome"
+	exit
+    fi
+done
+
+# configure and make all
+for app in $dirs
+do
+    if test -d $app
+    then
+	name=$app
+	name=${name/\//_}
+	pushd $app
+	git pull
+	echo "making $app"
+	make install >> ../$name.log 2>&1
+	echo "done $app"
+	popd
+    else
+	echo "$app dir not found. Could become troublesome"
+	exit
+    fi
+done
+
+# poor mans test
+for app in $exes
+do
+    if test -x $prefix/bin/$app
+    then
+	$prefix/bin/$app -V
+    else
+	echo "couldn't find $app executable"
+    fi
+done
