@@ -26,18 +26,13 @@ do
 	name=${name/\//_}
 	pushd $app
 	git pull
-	make maintainer-clean
-	rm -f config.{guess,sub}
-	sh ./bootstrap.sh
-	echo "configuring $app "
-	CXXFLAGS="-pedantic -W -Wall -O3 " ./configure --prefix=$prefix > ../$name.log 2>&1
 	echo "making $app"
 	make install >> ../$name.log 2>&1
 	echo "done $app"
 	popd
     else
 	echo "$app dir not found. Could become troublesome"
-	exit 1
+	exit
     fi
 done
 
