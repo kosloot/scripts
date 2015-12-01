@@ -27,7 +27,7 @@ do
 	popd
     else
 	echo "$app dir not found. Could become troublesome"
-	exit
+	exit 1
     fi
 done
 
