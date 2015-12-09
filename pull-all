@@ -1,0 +1,19 @@
+#! /bin/bash
+
+echo "syncing ALL"
+wd=`pwd`
+prefix="${wd}/../usr/local/"
+
+dirs=`ls -d */`
+
+# configure and make all
+for dir in $dirs
+do
+    if test -e $dir/.git
+    then
+	pushd $dir
+	git pull
+	echo "synced $dir"
+	popd
+    fi
+done
