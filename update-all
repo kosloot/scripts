@@ -4,7 +4,7 @@ echo "Updating ALL"
 wd=`pwd`
 prefix="${wd}/../usr/local/"
 
-dirs='ticcutils timbl timblserver mbt mbtserver dimbl libfolia ucto frogdata frog foliatools ticcltools toad wopr tscan'
+dirs='ticcutils timbl timblserver mbt mbtserver dimbl libfolia ucto frogdata frog foliautils ticcltools toad wopr tscan'
 
 # configure and make all
 for app in $dirs
