@@ -4,22 +4,23 @@ echo "Updating ALL"
 wd=`pwd`
 prefix="${wd}/../usr/local/"
 
-dirs='ticcutils timbl timblserver mbt mbtserver dimbl libfolia ucto frogdata frog foliatools ticcltools toad wopr tscan'
+dirs=`ls -d */`
 
 # configure and make all
 for app in $dirs
 do
-    if test -d $app
+    if [ -e $app/.git ]
     then
-	name=$app
-	name=${name/\//_}
 	pushd $app
+	if [ -e Makefile ]
+	then
+	    make install
+	else
+	    echo "No Makefile in $dir"
+	fi
 	git pull
-	echo "making $app"
-	make install >> ../$name.log 2>&1
-	echo "done $app"
 	popd
     else
-	echo "$app dir not found. Could become troublesome"
+	echo "skipping $app, not a git repository"
     fi
 done
