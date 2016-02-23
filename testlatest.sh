@@ -10,7 +10,7 @@ mkdir $wd
 cd $wd
 echo "Testing in directory $wd"
 
-files='ticcutils timbl timblserver mbt mbtserver libfolia ucto frogdata frog dimbl foliatools ticcltools'
+files='ticcutils timbl timblserver mbt mbtserver libfolia ucto frogdata frog dimbl foliautils ticcltools'
 for file in $files
 do
     wget http://software.ticc.uvt.nl/$file-latest.tar.gz > /dev/null 2>&1
