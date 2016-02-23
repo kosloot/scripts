@@ -12,13 +12,13 @@ do
     if [ -e $app/.git ]
     then
 	pushd $app
+	git pull
 	if [ -e Makefile ]
 	then
 	    make install
 	else
 	    echo "No Makefile in $dir"
 	fi
-	git pull
 	popd
     else
 	echo "skipping $app, not a git repository"
