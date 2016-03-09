@@ -7,8 +7,7 @@ echo "Rebuilding ALL"
 wd=`pwd`
 prefix="${wd}/../usr/local/"
 
-#dirs='ticcutils timbl timblserver mbt mbtserver dimbl libfolia ucto frogdata frog foliautils ticcltools toad wopr tscan'
-dirs='ticcutils timbl timblserver'
+dirs='ticcutils timbl timblserver mbt mbtserver dimbl libfolia ucto frogdata frog foliautils ticcltools toad wopr tscan'
 exes='timbl timblserver mbt mbtserver dimbl ucto frog FoLiA-stats FoLiA-alto FoLiA-hocr TICCL-lexclean TICCL-indexerNT wopr tscan'
 
 #sanity check
