@@ -7,14 +7,15 @@ prefix="${wd}/../usr/local/"
 dirs=`ls -d */`
 
 # configure and make all
-for app in $dirs
+for dir in $dirs
 do
+    app=${dir%/}
     if [ -e $app/.git ]
     then
-	rm $app.log
+	rm $app.log > /dev/null 2>1
 	pushd $app > /dev/null 2>1
 	git pull  > /dev/null 2>1
-	ech "building in $app"
+	echo "building in $app"
 	if [ -e Makefile ]
 	then
 	    make install > ../$app.log 2>1
@@ -27,7 +28,7 @@ do
 	else
 	    echo "No Makefile in $dir"
 	fi
-	popd
+	popd  > /dev/null 2>1
     else
 	echo "skipping $app, not a git repository"
     fi
