@@ -12,13 +12,13 @@ do
     app=${dir%/}
     if [ -e $app/.git ]
     then
-	rm $app.log > /dev/null 2>1
-	pushd $app > /dev/null 2>1
-	git pull  > /dev/null 2>1
+	rm $app.log > /dev/null 2>&1
+	pushd $app > /dev/null 2>&1
+	git pull  > /dev/null 2>&1
 	echo "building in $app"
 	if [ -e Makefile ]
 	then
-	    make install > ../$app.log 2>1
+	    make install > ../$app.log 2>&1
 	    if [ $? -ne 0 ]
 	    then
 		echo "$app failed: see $app.log"
@@ -28,7 +28,7 @@ do
 	else
 	    echo "No Makefile in $dir"
 	fi
-	popd  > /dev/null 2>1
+	popd  > /dev/null 2>&1
     else
 	echo "skipping $app, not a git repository"
     fi
