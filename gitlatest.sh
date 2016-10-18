@@ -43,7 +43,7 @@ echo "voor test"
 pwd
 
 # poor mans test
-testfiles='timbl timblserver mbt mbtserver ucto frog dimbl'
+testfiles='timbl timblserver mbt mbtserver folialint ucto frog dimbl FoLiA-alto'
 for file in $testfiles
 do
     for dir in $file-*
