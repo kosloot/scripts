@@ -7,7 +7,7 @@ echo "Rebuilding ALL"
 wd=`pwd`
 prefix="${wd}/../usr/local/"
 
-dirs='ticcutils timbl timblserver mbt mbtserver dimbl libfolia ucto frogdata frog foliautils ticcltools toad wopr tscan'
+dirs='ticcutils timbl timblserver mbt mbtserver dimbl libfolia uctodata ucto frogdata frog foliautils ticcltools toad wopr tscan'
 exes='timbl timblserver mbt mbtserver dimbl ucto frog FoLiA-stats FoLiA-alto FoLiA-hocr TICCL-lexclean TICCL-indexerNT wopr tscan'
 
 #sanity check
@@ -27,9 +27,9 @@ do
     then
 	name=$app
 	name=${name/\//_}
-	pushd $app 1> ../$name.log 2>&1
+	pushd $app > ../$name.log 2>&1
 	echo -n "$app: updating"
-	git pull 1> ../$name.log 2>&1
+	git pull > ../$name.log 2>&1
 	if [ $? -ne 0 ];
 	then
 	    echo -e $FAIL
@@ -37,9 +37,9 @@ do
 	    echo "see $name.log"
 	    exit
 	fi
-	make maintainer-clean 1> ../$name.log 2>&1
+	make maintainer-clean > ../$name.log 2>&1
 	rm -f config.{guess,sub}
-	sh ./bootstrap.sh 1>> ../$name.log 2>&1
+	sh ./bootstrap.sh >> ../$name.log 2>&1
 	if [ $? -ne 0 ];
 	then
 	    echo -e $FAIL
@@ -49,7 +49,7 @@ do
 	fi
 
 	echo -n ", configuring"
-	CXXFLAGS="-pedantic -W -Wall -O3 " ./configure --prefix=$prefix 1> ../$name.log 2>&1
+	CXXFLAGS="-pedantic -W -Wall -O3 " ./configure --prefix=$prefix > ../$name.log 2>&1
 	if [ $? -ne 0 ];
 	then
 	    echo -e $FAIL
@@ -59,7 +59,7 @@ do
 	fi
 
 	echo -n ", making"
-	make install 1>> ../$name.log 2>&1
+	make install >> ../$name.log 2>&1
 	if [ $? -ne 0 ];
 	then
 	    echo -e $FAIL
@@ -69,7 +69,7 @@ do
 	else
 	    echo -e $OK
 	fi
-	popd  1> ../$name.log 2>&1
+	popd  > ../$name.log 2>&1
     else
 	echo "$app dir not found. Could become troublesome"
 	exit 1
@@ -81,7 +81,7 @@ for app in $exes
 do
     if test -x $prefix/bin/$app
     then
-	$prefix/bin/$app -V  1> $name.log 2>&1
+	$prefix/bin/$app -V  > $name.log 2>&1
 	if [ $? -ne 0 ];
 	then
 	    echo -e $FAIL
