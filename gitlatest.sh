@@ -1,4 +1,7 @@
-#! /bin/sh
+#! /bin/bash
+
+OK="\033[1;32m OK  \033[0m"
+FAIL="\033[1;31m  FAILED  \033[0m"
 
 wd=/tmp/testdownloads
 if test -d $wd
@@ -29,12 +32,26 @@ do
     do
 	if test -d $dir
 	then
-	    cd $dir
+	    pushd $dir
 	    echo "configuring $file in $dir"
 	    ./configure --prefix=$wd > $wd/$file.log 2>&1
+	    if [ $? -ne 0 ];
+	    then
+		echo -e $FAIL
+		popd
+		echo "see $name.log"
+		exit
+	    fi
 	    echo "making $file in $dir"
 	    make install >> $wd/$file.log 2>&1
-	    cd $wd
+	    if [ $? -ne 0 ];
+	    then
+		echo -e $FAIL
+		popd
+		echo "see $name.log"
+		exit
+	    fi
+	    popd
 	fi
     done
 done
