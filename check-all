@@ -1,0 +1,29 @@
+#! /bin/bash
+
+echo "checking ALL"
+
+dirs=`ls -d */`
+
+# do git-diff on all...
+for dir in $dirs
+do
+    if test -e $dir/.git
+    then
+	pushd $dir > /dev/null
+	git diff --exit-code --quiet
+	if [ $? -ne 0 ];
+	then
+	  echo "$dir needs commit"
+	else
+	  rm -f ../p.t
+	  git push -n >& ../p.t
+	  linecount=`wc -l <../p.t`
+	  if [ ! $linecount == 1 ];
+	  then
+	    echo "$dir needs push"
+	  fi
+	fi
+	popd > /dev/null
+    fi
+done
+echo "Done"
