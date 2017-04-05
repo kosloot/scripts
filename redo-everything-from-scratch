@@ -4,8 +4,14 @@ OK="\033[1;32m OK  \033[0m"
 FAIL="\033[1;31m  FAILED  \033[0m"
 
 echo "Rebuilding ALL"
-wd=`pwd`
-prefix="${wd}/../usr/local/"
+host=`hostname`
+if [ "$host" == "bonus" ] || [ "$host" == "kokos" ]
+then
+    prefix="/home/sloot/usr/local/"
+else
+    wd=`pwd`
+    prefix="${wd}/../usr/local/"
+fi
 
 dirs='ticcutils timbl timblserver mbt mbtserver dimbl libfolia uctodata ucto frogdata frog foliautils ticcltools toad wopr tscan'
 exes='timbl timblserver mbt mbtserver dimbl ucto frog FoLiA-stats FoLiA-alto FoLiA-hocr TICCL-lexclean TICCL-indexerNT wopr tscan'
