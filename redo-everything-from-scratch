@@ -3,7 +3,16 @@
 OK="\033[1;32m OK  \033[0m"
 FAIL="\033[1;31m  FAILED  \033[0m"
 
-echo "Rebuilding ALL"
+branch=$1
+
+echo -n "Rebuilding ALL"
+if [ "$branch" != "" ];
+then
+    echo " in branch $branch"
+else
+    echo " in the current branches"
+fi
+
 host=`hostname`
 if [ "$host" == "bonus" ] || [ "$host" == "kokos" ]
 then
@@ -35,6 +44,19 @@ do
 	name=${name/\//_}
 	pushd $app > ../$name.log 2>&1
 	echo -n "$app: updating"
+	if [ "$branch" != "" ];
+	then
+	    git checkout --quiet $branch 2>$1
+	    if [ $? -ne 0 ];
+	    then
+		# branch bestaat niet, blijf waar je bent
+		echo -n " [ NO $branch, `git rev-parse --abbrev-ref HEAD`]"
+	    else
+		echo -n " [$branch]"
+	    fi
+	else
+	    echo -n " [`git rev-parse --abbrev-ref HEAD`]"
+	fi
 	git pull > ../$name.log 2>&1
 	if [ $? -ne 0 ];
 	then
@@ -66,6 +88,16 @@ do
 
 	echo -n ", making"
 	make install >> ../$name.log 2>&1
+	if [ $? -ne 0 ];
+	then
+	    echo -e $FAIL
+	    popd
+	    echo "see $name.log"
+	    exit
+	fi
+
+	echo -n ", checking"
+	make check >> ../$name.log 2>&1
 	if [ $? -ne 0 ];
 	then
 	    echo -e $FAIL
