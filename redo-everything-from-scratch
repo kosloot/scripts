@@ -46,7 +46,7 @@ do
 	echo -n "$app: updating"
 	if [ "$branch" != "" ];
 	then
-	    git checkout --quiet $branch 2>$1
+	    git checkout --quiet $branch 2>&1
 	    if [ $? -ne 0 ];
 	    then
 		# branch bestaat niet, blijf waar je bent
