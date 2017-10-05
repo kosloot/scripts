@@ -46,11 +46,11 @@ do
 	echo -n "$app: updating"
 	if [ "$branch" != "" ];
 	then
-	    git checkout --quiet $branch 2>&1
+	    git checkout --quiet $branch > /dev/null 2>&1
 	    if [ $? -ne 0 ];
 	    then
 		# branch bestaat niet, blijf waar je bent
-		echo -n " [ NO $branch, `git rev-parse --abbrev-ref HEAD`]"
+		echo -n " [ NO $branch, sticking to: `git rev-parse --abbrev-ref HEAD`]"
 	    else
 		echo -n " [$branch]"
 	    fi
