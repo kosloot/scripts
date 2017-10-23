@@ -22,7 +22,8 @@ else
     prefix="${wd}/../usr/local/"
 fi
 
-dirs='ticcutils timbl timblserver mbt mbtserver dimbl libfolia foliatest uctodata ucto frogdata frog foliautils ticcltools toad wopr tscan'
+#dirs='ticcutils timbl timblserver mbt mbtserver dimbl libfolia foliatest uctodata ucto frogdata frog frogtests foliautils ticcltools toad wopr tscan'
+dirs='dimbl frogtests'
 exes='timbl timblserver mbt mbtserver dimbl ucto frog FoLiA-stats FoLiA-alto FoLiA-hocr TICCL-lexclean TICCL-indexerNT wopr tscan'
 
 #sanity check
@@ -65,45 +66,50 @@ do
 	    echo "see $name.log"
 	    exit
 	fi
-	make maintainer-clean > ../$name.log 2>&1
-	rm -f config.{guess,sub}
-	sh ./bootstrap.sh >> ../$name.log 2>&1
-	if [ $? -ne 0 ];
+	if test -e Makefile
 	then
-	    echo -e $FAIL
-	    popd
-	    echo "see $name.log"
-	    exit
-	fi
+	    make maintainer-clean > ../$name.log 2>&1
+	    rm -f config.{guess,sub}
+	    sh ./bootstrap.sh >> ../$name.log 2>&1
+	    if [ $? -ne 0 ];
+	    then
+		echo -e $FAIL
+		popd
+		echo "see $name.log"
+		exit
+	    fi
 
-	echo -n ", configuring"
-	CXXFLAGS="-pedantic -W -Wall -O3 " ./configure --prefix=$prefix > ../$name.log 2>&1
-	if [ $? -ne 0 ];
-	then
-	    echo -e $FAIL
-	    popd
-	    echo "see $name.log"
-	    exit
-	fi
+	    echo -n ", configuring"
+	    CXXFLAGS="-pedantic -W -Wall -O3 " ./configure --prefix=$prefix > ../$name.log 2>&1
+	    if [ $? -ne 0 ];
+	    then
+		echo -e $FAIL
+		popd
+		echo "see $name.log"
+		exit
+	    fi
 
-	echo -n ", making"
-	make install >> ../$name.log 2>&1
-	if [ $? -ne 0 ];
-	then
-	    echo -e $FAIL
-	    popd
-	    echo "see $name.log"
-	    exit
-	fi
+	    echo -n ", making"
+	    make -j install >> ../$name.log 2>&1
+	    if [ $? -ne 0 ];
+	    then
+		echo -e $FAIL
+		popd
+		echo "see $name.log"
+		exit
+	    fi
 
-	echo -n ", checking"
-	make check >> ../$name.log 2>&1
-	if [ $? -ne 0 ];
-	then
-	    echo -e $FAIL
-	    popd
-	    echo "see $name.log"
-	    exit
+	    echo -n ", checking"
+	    make check >> ../$name.log 2>&1
+	    if [ $? -ne 0 ];
+	    then
+		echo -e $FAIL
+		popd
+		echo "see $name.log"
+		exit
+	    else
+		echo -e $OK
+	    fi
 	else
 	    echo -e $OK
 	fi
