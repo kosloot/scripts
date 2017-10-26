@@ -39,7 +39,7 @@ do
 	    then
 		echo -e $FAIL
 		popd
-		echo "see $name.log"
+		echo "see $file.log"
 		exit
 	    fi
 	    echo "making $file in $dir"
@@ -48,7 +48,16 @@ do
 	    then
 		echo -e $FAIL
 		popd
-		echo "see $name.log"
+		echo "see $file.log"
+		exit
+	    fi
+	    echo "checking $file in $dir"
+	    make check >> $wd/$file.log 2>&1
+	    if [ $? -ne 0 ];
+	    then
+		echo -e $FAIL
+		popd
+		echo "see $file.log"
 		exit
 	    fi
 	    popd
