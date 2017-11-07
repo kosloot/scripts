@@ -13,7 +13,7 @@ mkdir $wd
 cd $wd
 echo "Testing in directory $wd"
 
-files='ticcutils timbl timblserver mbt mbtserver libfolia uctodata ucto frogdata frog dimbl foliautils' # ticcltools'
+files='ticcutils timbl timblserver mbt mbtserver libfolia uctodata ucto frogdata frog dimbl foliautils toad' # ticcltools'
 for file in $files
 do
     curl -o $file.curl -s -L https://github.com/LanguageMachines/$file/releases/latest
@@ -39,16 +39,25 @@ do
 	    then
 		echo -e $FAIL
 		popd
-		echo "see $name.log"
+		echo "see $file.log"
 		exit
 	    fi
 	    echo "making $file in $dir"
-	    make install >> $wd/$file.log 2>&1
+	    make -j4 install >> $wd/$file.log 2>&1
 	    if [ $? -ne 0 ];
 	    then
 		echo -e $FAIL
 		popd
-		echo "see $name.log"
+		echo "see $file.log"
+		exit
+	    fi
+	    echo "checking $file in $dir"
+	    make check >> $wd/$file.log 2>&1
+	    if [ $? -ne 0 ];
+	    then
+		echo -e $FAIL
+		popd
+		echo "see $file.log"
 		exit
 	    fi
 	    popd
