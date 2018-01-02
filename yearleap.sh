@@ -7,7 +7,7 @@ do
     echo try $file
     if test -f $file
     then
-	sed -i s/\ 2016\ /\ 2017\ /g $file
-	sed -i s/\ 2016$/\ 2017/g $file
+	sed -i s/\ 2017\ /\ 2018\ /g $file
+	sed -i s/\ 2017$/\ 2018/g $file
    fi
 done
