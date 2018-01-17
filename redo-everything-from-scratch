@@ -4,13 +4,19 @@ OK="\033[1;32m OK  \033[0m"
 FAIL="\033[1;31m  FAILED  \033[0m"
 
 branch=$1
+compiler=$2
 
-echo -n "Rebuilding ALL"
+if [ "$compiler" == "" ];
+then
+    compiler=g++
+fi
+
+echo -n "Rebuilding ALL with $compiler "
 if [ "$branch" != "" ];
 then
-    echo " in branch $branch"
+    echo "in branch $branch"
 else
-    echo " in the current branches"
+    echo "in the current branches"
 fi
 
 host=`hostname`
@@ -79,7 +85,7 @@ do
 	    fi
 
 	    echo -n ", configuring"
-	    CXXFLAGS="-pedantic -W -Wall -O3 " ./configure --prefix=$prefix > ../$name.log 2>&1
+	    CXX=$compiler CXXFLAGS="-pedantic -W -Wall -O3 " ./configure --prefix=$prefix > ../$name.log 2>&1
 	    if [ $? -ne 0 ];
 	    then
 		echo -e $FAIL
@@ -124,11 +130,11 @@ for app in $exes
 do
     if test -x $prefix/bin/$app
     then
-	$prefix/bin/$app -V  > $name.log 2>&1
+	$prefix/bin/$app -V  > $name-test.log 2>&1
 	if [ $? -ne 0 ];
 	then
 	    echo -e $FAIL
-	    echo "see $name.log"
+	    echo "see $name-test.log"
 	else
 	    echo -n "testing $app: "
 	    echo -e $OK
