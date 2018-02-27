@@ -56,9 +56,9 @@ do
 	    if [ $? -ne 0 ];
 	    then
 		echo -e $FAIL
-		popd
+#		popd
 		echo "see $file.log"
-		exit
+#		exit
 	    fi
 	    popd
 	fi
