@@ -19,7 +19,7 @@ do
     curl -o $file.curl -s -L https://github.com/LanguageMachines/$file/releases/latest
     grep "releases/download/" $file.curl > $file.bla
     sed "s/^ *<a href=\"//g" -i $file.bla
-    line=$(sed "s/\" rel=\"nofollow\">//g" $file.bla)
+    line=$(sed "s/\" rel=\"nofollow\".*$//g" $file.bla)
     wget http://github.com/$line > /dev/null 2>&1
     echo "downloaded $file"
     tar zxf $file-*.tar.gz
