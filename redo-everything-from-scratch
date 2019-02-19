@@ -1,5 +1,8 @@
 #! /bin/bash
 
+RED="\033[1;31m"
+BLUE="\033[1;34m"
+NORMAL="\033[0m"
 OK="\033[1;32m OK  \033[0m"
 FAIL="\033[1;31m  FAILED  \033[0m"
 
@@ -56,12 +59,12 @@ do
 	    if [ $? -ne 0 ];
 	    then
 		# branch bestaat niet, blijf waar je bent
-		echo -n " [ NO $branch, sticking to: `git rev-parse --abbrev-ref HEAD`]"
+		echo -n " [$RED NO $branch, sticking to: `git rev-parse --abbrev-ref HEAD`$NORMAL]"
 	    else
-		echo -n " [$branch]"
+		echo -n " [$BLUE$branch$NORMAL]"
 	    fi
 	else
-	    echo -n " [`git rev-parse --abbrev-ref HEAD`]"
+	    echo -ne " [$BLUE`git rev-parse --abbrev-ref HEAD`$NORMAL]"
 	fi
 	git pull > ../$name.log 2>&1
 	if [ $? -ne 0 ];
