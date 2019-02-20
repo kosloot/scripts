@@ -74,7 +74,7 @@ do
 	    echo "see $name.log"
 	    exit
 	fi
-	if test -e Makefile
+	if test -e Makefile.am
 	then
 	    make maintainer-clean > ../$name.log 2>&1
 	    rm -f config.{guess,sub}
