@@ -52,16 +52,16 @@ do
 	name=$app
 	name=${name/\//_}
 	pushd $app > ../$name.log 2>&1
-	echo -n "$app: updating"
+	echo -en "$app: updating"
 	if [ "$branch" != "" ];
 	then
 	    git checkout --quiet $branch > /dev/null 2>&1
 	    if [ $? -ne 0 ];
 	    then
 		# branch bestaat niet, blijf waar je bent
-		echo -n " [$RED NO $branch, sticking to: `git rev-parse --abbrev-ref HEAD`$NORMAL]"
+		echo -en " [$RED NO $branch, sticking to: `git rev-parse --abbrev-ref HEAD`$NORMAL]"
 	    else
-		echo -n " [$BLUE$branch$NORMAL]"
+		echo -en " [$BLUE$branch$NORMAL]"
 	    fi
 	else
 	    echo -ne " [$BLUE`git rev-parse --abbrev-ref HEAD`$NORMAL]"
