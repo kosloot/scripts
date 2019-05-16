@@ -14,12 +14,12 @@ do
 	branch=`git branch | grep \* | cut -d ' ' -f2`
 	if [ $branch != "master" ];
 	then
-	    echo $dir " $branch OK"
+	    echo $dir "[$branch]     OK"
 	fi
 	git diff-index --exit-code --quiet HEAD
 	if [ $? -ne 0 ];
 	then
-	  echo "$dir needs git action"
+	  echo "$dir [$branch] needs git action"
 	fi
 	popd > /dev/null
     fi
