@@ -13,7 +13,7 @@ mkdir $wd
 cd $wd
 echo "Testing in directory $wd"
 
-files='ticcutils timbl timblserver mbt mbtserver libfolia foliatest uctodata ucto frogdata frog dimbl foliautils toad ticcltools'
+files='ticcutils timbl timblserver mbt mbtserver libfolia uctodata ucto frogdata frog dimbl foliautils toad ticcltools'
 for file in $files
 do
     curl -o $file.curl -s -L https://github.com/LanguageMachines/$file/releases/latest
