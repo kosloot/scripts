@@ -31,7 +31,7 @@ else
     prefix="${wd}/../usr/local/"
 fi
 
-dirs='scripts ticcutils timbl timblserver json mbt mbtserver dimbl libfolia FoLiApy foliatest uctodata ucto frogdata frog frogtests foliautils ticcltools toad wopr tscan'
+dirs='scripts ticcutils timbl timblserver mbt mbtserver dimbl libfolia FoLiApy foliatest uctodata ucto frogdata frog frogtests foliautils ticcltools toad wopr tscan'
 exes='timbl timblserver mbt mbtserver dimbl ucto frog FoLiA-stats FoLiA-alto FoLiA-hocr TICCL-lexclean TICCL-indexerNT wopr tscan'
 
 #sanity check
