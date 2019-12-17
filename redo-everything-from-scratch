@@ -98,7 +98,7 @@ do
 	    fi
 
 	    echo -n ", making"
-	    make -j install >> ../$name.log 2>&1
+	    make install >> ../$name.log 2>&1
 	    if [ $? -ne 0 ];
 	    then
 		echo -e $FAIL
