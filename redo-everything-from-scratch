@@ -31,7 +31,7 @@ else
     prefix="${wd}/../usr/local/"
 fi
 
-dirs='scripts ticcutils timbl timblserver timbltests mbt mbtserver mbttests dimbl libfolia FoLiApy foliatest uctodata ucto frogdata frog frogtests foliautils ticcltools toad wopr tscan'
+dirs='scripts ticcutils timbl timblserver timbltests mbt mbtserver mbttests dimbl libfolia FoLiApy foliatest uctodata ucto frogdata frog frogtests foliautils ticcltools toad wopr tscan colibri-core colibri-utils'
 exes='timbl timblserver mbt mbtserver dimbl ucto frog FoLiA-stats FoLiA-alto FoLiA-hocr TICCL-lexclean TICCL-indexerNT wopr tscan'
 
 #sanity check
@@ -78,7 +78,12 @@ do
 	then
 	    make maintainer-clean > ../$name.log 2>&1
 	    rm -f config.{guess,sub}
-	    sh ./bootstrap.sh >> ../$name.log 2>&1
+    	    if test -e bootstrap.sh
+	    then
+		sh ./bootstrap.sh >> ../$name.log 2>&1
+	    else
+		sh ./bootstrap >> ../$name.log 2>&1
+	    fi
 	    if [ $? -ne 0 ];
 	    then
 		echo -e $FAIL
