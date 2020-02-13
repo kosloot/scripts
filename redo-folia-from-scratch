@@ -1,0 +1,153 @@
+#! /bin/bash
+
+RED="\033[1;31m"
+BLUE="\033[1;34m"
+NORMAL="\033[0m"
+OK="\033[1;32m OK  \033[0m"
+FAIL="\033[1;31m  FAILED  \033[0m"
+
+branch=$1
+compiler=$2
+
+if [ "$compiler" == "" ];
+then
+    compiler=g++
+fi
+
+echo -n "Rebuilding ALL with $compiler "
+if [ "$branch" != "" ];
+then
+    echo "in branch $branch"
+else
+    echo "in the current branches"
+fi
+
+host=`hostname`
+if [ "$host" == "bonus" ] || [ "$host" == "kokos" ]
+then
+    prefix="/home/sloot/usr/local/"
+else
+    wd=`pwd`
+    prefix="${wd}/../usr/local/"
+fi
+
+dirs='scripts ticcutils libfolia FoLiApy foliatest uctodata ucto frogdata frog frogtests foliautils'
+exes='ucto frog FoLiA-stats FoLiA-alto FoLiA-hocr'
+
+#sanity check
+for app in $dirs
+do
+    if ! test -d $app
+    then
+	echo "$app dir not found. Could become troublesome"
+	exit
+    fi
+done
+
+# configure and make all
+for app in $dirs
+do
+    if test -d $app
+    then
+	name=$app
+	name=${name/\//_}
+	pushd $app > ../$name.log 2>&1
+	echo -en "$app: updating"
+	if [ "$branch" != "" ];
+	then
+	    git checkout --quiet $branch > /dev/null 2>&1
+	    if [ $? -ne 0 ];
+	    then
+		# branch bestaat niet, blijf waar je bent
+		echo -en " [$RED NO $branch, sticking to: `git rev-parse --abbrev-ref HEAD`$NORMAL]"
+	    else
+		echo -en " [$BLUE$branch$NORMAL]"
+	    fi
+	else
+	    echo -ne " [$BLUE`git rev-parse --abbrev-ref HEAD`$NORMAL]"
+	fi
+	git pull --recurse-submodules > ../$name.log 2>&1
+	if [ $? -ne 0 ];
+	then
+	    echo -e $FAIL
+	    popd
+	    echo "see $name.log"
+	    exit
+	fi
+	if test -e Makefile.am
+	then
+	    make maintainer-clean > ../$name.log 2>&1
+	    rm -f config.{guess,sub}
+    	    if test -e bootstrap.sh
+	    then
+		sh ./bootstrap.sh >> ../$name.log 2>&1
+	    else
+		sh ./bootstrap >> ../$name.log 2>&1
+	    fi
+	    if [ $? -ne 0 ];
+	    then
+		echo -e $FAIL
+		popd
+		echo "see $name.log"
+		exit
+	    fi
+
+	    echo -n ", configuring"
+	    CXX=$compiler CXXFLAGS="-pedantic -W -Wall -O3 " ./configure --prefix=$prefix > ../$name.log 2>&1
+	    if [ $? -ne 0 ];
+	    then
+		echo -e $FAIL
+		popd
+		echo "see $name.log"
+		exit
+	    fi
+
+	    echo -n ", making"
+	    make install >> ../$name.log 2>&1
+	    if [ $? -ne 0 ];
+	    then
+		echo -e $FAIL
+		popd
+		echo "see $name.log"
+		exit
+	    fi
+
+	    echo -n ", checking"
+	    make check >> ../$name.log 2>&1
+	    if [ $? -ne 0 ];
+	    then
+		echo -e $FAIL
+		popd
+		echo "see $name.log"
+		exit
+	    else
+		echo -e $OK
+	    fi
+	else
+	    echo -e $OK
+	fi
+	popd  >> ../$name.log 2>&1
+    else
+	echo "$app dir not found. Could become troublesome"
+	exit 1
+    fi
+done
+
+# poor mans test
+for app in $exes
+do
+    if test -x $prefix/bin/$app
+    then
+	$prefix/bin/$app -V  > $name-test.log 2>&1
+	if [ $? -ne 0 ];
+	then
+	    echo -e $FAIL
+	    echo "see $name-test.log"
+	else
+	    echo -n "testing $app: "
+	    echo -e $OK
+	fi
+    else
+	echo "couldn't find $app executable"
+    fi
+done
