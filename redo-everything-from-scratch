@@ -31,16 +31,33 @@ else
     prefix="${wd}/../usr/local/"
 fi
 
-dirs='scripts ticcutils timbl timblserver timbltests mbt mbtserver mbttests dimbl libfolia FoLiApy foliatest uctodata ucto frogdata frog frogtests foliautils ticcltools toad wopr tscan colibri-core colibri-utils'
+# directories to handle
+dirs='scripts ticcutils timbl timblserver timbltests mbt mbtserver mbttests dimbl libfolia FoLiApy foliatest uctodata ucto frogdata frog frogtests foliautils ticcltools toad wopr tscan'
+
+# optional directories
+optdirs='colibri-core colibri-utils'
+
+# executables to test (using -V only)
 exes='timbl timblserver mbt mbtserver dimbl ucto frog FoLiA-stats FoLiA-alto FoLiA-hocr TICCL-lexclean TICCL-indexerNT wopr tscan'
 
-#sanity check
+#sanity check for REQUIRED directories
 for app in $dirs
 do
     if ! test -d $app
     then
 	echo "$app dir not found. Could become troublesome"
 	exit
+    fi
+done
+
+count=0;
+for app in $optdirs
+do
+    if ! test -d $app
+    then
+	echo "$app dir not found. skipping."
+    else
+        dirs="$dirs $app"
     fi
 done
 
