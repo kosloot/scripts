@@ -83,7 +83,7 @@ do
 	else
 	    echo -ne " [$BLUE`git rev-parse --abbrev-ref HEAD`$NORMAL]"
 	fi
-	git pull --recurse-submodules > ../$name.log 2>&1
+	git pull --recurse-submodules >> ../$name.log 2>&1
 	if [ $? -ne 0 ];
 	then
 	    echo -e $FAIL
@@ -93,7 +93,7 @@ do
 	fi
 	if test -e Makefile.am
 	then
-	    make maintainer-clean > ../$name.log 2>&1
+	    make maintainer-clean >> ../$name.log 2>&1
 	    rm -f config.{guess,sub}
     	    if test -e bootstrap.sh
 	    then
@@ -110,7 +110,7 @@ do
 	    fi
 
 	    echo -n ", configuring"
-	    CXX=$compiler CXXFLAGS="-pedantic -W -Wall -O3 " ./configure --prefix=$prefix > ../$name.log 2>&1
+	    CXX=$compiler CXXFLAGS="-pedantic -W -Wall -O3 " ./configure --prefix=$prefix >> ../$name.log 2>&1
 	    if [ $? -ne 0 ];
 	    then
 		echo -e $FAIL
