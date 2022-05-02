@@ -10,16 +10,16 @@ do
     if test -e $dir/.git
     then
 	pushd $dir > /dev/null
-	git diff-index --exit-code --quiet HEAD
 	branch=`git branch | grep \* | cut -d ' ' -f2`
-	if [ $branch != "master" ];
-	then
-	    echo $dir "[$branch]     OK"
-	fi
-	git diff-index --exit-code --quiet HEAD
+	git diff --quiet HEAD
 	if [ $? -ne 0 ];
 	then
-	  echo "$dir [$branch] needs git action"
+	    echo "$dir [$branch] needs git action"
+	else
+	    if [ $branch != "master" ];
+	    then
+		echo $dir "[$branch]     OK"
+	    fi
 	fi
 	popd > /dev/null
     fi
