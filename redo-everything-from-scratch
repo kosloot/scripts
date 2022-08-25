@@ -38,7 +38,7 @@ dirs='scripts ticcutils timbl timblserver timbltests mbt mbtserver mbttests dimb
 optdirs='colibri-core colibri-utils'
 
 # executables to test (using -V only)
-exes='timbl timblserver mbt mbtserver dimbl ucto frog FoLiA-stats FoLiA-alto FoLiA-hocr TICCL-lexclean TICCL-indexerNT wopr tscan'
+exes='timbl timblserver mbt mbtserver dimbl ucto frog folialint FoLiA-stats FoLiA-alto FoLiA-hocr TICCL-lexclean TICCL-indexerNT wopr tscan'
 
 #sanity check for REQUIRED directories
 for app in $dirs
