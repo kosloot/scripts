@@ -68,6 +68,7 @@ do
     then
 	name=$app
 	name=${name/\//_}
+	rm ../$name.log
 	pushd $app > ../$name.log 2>&1
 	echo -en "$app: updating"
 	if [ "$branch" != "" ];
