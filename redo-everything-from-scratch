@@ -42,11 +42,11 @@ optdirs='colibri-core colibri-utils'
 exes='timbl timblserver mbt mbtserver dimbl ucto frog folialint FoLiA-stats FoLiA-alto FoLiA-hocr TICCL-lexclean TICCL-indexerNT wopr'
 
 partdirs=()
-if [ $restart != "" ]
+if [ "$restart" != "" ]
 then
     for app in $dirs
     do
-#	echo "app=$app restart=$restart"
+	echo "app=$app restart=$restart"
 	if [ $app = $restart ]
 	then
 	    partdirs+="$app "
@@ -60,7 +60,12 @@ then
     done
 fi
 
-dirs=$partdirs
+if [ "$partdirs" != "" ];
+then
+    dirs=$partdirs
+fi
+
+echo "building for $dirs"
 
 #sanity check for REQUIRED directories
 for app in $dirs
