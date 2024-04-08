@@ -10,9 +10,18 @@ restart=$1
 compiler=$2
 branch=$3
 
-if [ "$compiler" == "" ];
+if [ "$compiler" == "" ]
 then
     compiler=g++
+else
+    if [ "$compiler" != "g++" ] \
+	&& [ "$compiler" != "clang++" ] \
+	&& [ "$compiler" != "clang++-14" ] \
+	&& [ "$compiler" != "clang++-15" ]
+    then
+	echo "compiler must be c++ or clang++[-14|15]"
+	exit
+    fi
 fi
 
 echo -n "Rebuilding ALL with $compiler "
