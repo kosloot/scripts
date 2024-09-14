@@ -16,7 +16,7 @@ do
 	then
 	    echo "$dir [$branch] needs git action"
 	else
-	    if [ $branch != "master" ];
+	    if [ $branch != "master" ] && [ $branch != "main" ];
 	    then
 		echo $dir "[$branch]     OK"
 	    fi
