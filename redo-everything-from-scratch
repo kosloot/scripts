@@ -16,10 +16,10 @@ then
 else
     if [ "$compiler" != "g++" ] \
 	&& [ "$compiler" != "clang++" ] \
-	&& [ "$compiler" != "clang++-14" ] \
-	&& [ "$compiler" != "clang++-15" ]
+	&& [ "$compiler" != "clang++-16" ] \
+	&& [ "$compiler" != "clang++-17" ]
     then
-	echo "compiler must be c++ or clang++[-14|15]"
+	echo "compiler must be c++ or clang++[-16|17]"
 	exit
     fi
 fi
@@ -55,7 +55,7 @@ if [ "$restart" != "" ]
 then
     for app in $dirs
     do
-	echo "app=$app restart=$restart"
+	# echo "app=$app restart=$restart"
 	if [ $app = $restart ]
 	then
 	    partdirs+="$app "
@@ -157,6 +157,16 @@ do
 	    fi
 
 	    echo -n ", making"
+	    make -j5 >> ../$name.log 2>&1
+	    if [ $? -ne 0 ];
+	    then
+		echo -e $FAIL
+		popd
+		echo "see $name.log"
+		exit
+	    fi
+
+	    echo -n ", installing"
 	    make install >> ../$name.log 2>&1
 	    if [ $? -ne 0 ];
 	    then
