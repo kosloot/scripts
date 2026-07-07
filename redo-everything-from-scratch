@@ -42,13 +42,13 @@ else
 fi
 
 # directories to handle
-dirs="scripts ticcutils timbl timblserver timbltests mbt mbtserver mbttests dimbl libfolia FoLiApy foliatest uctodata ucto frogdata frog frogtests foliautils ticcltools toad wopr"
+dirs="scripts ticcutils timbl timblserver timbltests mbt mbtserver mbttests dimbl libfolia FoLiApy foliatest uctodata ucto frogdata frog frogtests foliautils ticcltools toad" # wopr"
 
 # optional directories
 optdirs='colibri-core colibri-utils'
 
 # executables to test (using -V only)
-exes='timbl timblserver mbt mbtserver dimbl ucto frog folialint FoLiA-stats FoLiA-alto FoLiA-hocr TICCL-lexclean TICCL-indexerNT wopr'
+exes='timbl timblserver mbt mbtserver dimbl ucto frog folialint FoLiA-stats FoLiA-alto FoLiA-hocr TICCL-lexclean TICCL-indexerNT' #wopr'
 
 partdirs=()
 if [ "$restart" != "" ]
