@@ -4,6 +4,13 @@ echo "checking ALL"
 
 dirs=`ls -d */`
 
+delete=(json Glem libexttextcat tinyxml2) # not my problem!
+
+for del in ${delete[@]}
+do
+   dirs=("${dirs[@]/$del}")
+done
+
 # do git-diff on all...
 for dir in $dirs
 do
@@ -16,9 +23,15 @@ do
 	then
 	    echo "$dir [$branch] needs git action"
 	else
-	    if [ $branch != "master" ] && [ $branch != "main" ];
+	    git push --dry-run --quiet
+	    if [ $? -ne 0 ];
 	    then
-		echo $dir "[$branch]     OK"
+		echo "$dir [$branch] needs git push"
+	    else
+		if [ $branch != "master" ] && [ $branch != "main" ];
+		then
+		    echo $dir "[$branch]     OK"
+		fi
 	    fi
 	fi
 	popd > /dev/null
