@@ -10,12 +10,15 @@ then
 fi
 
 mkdir $wd
+cp token $wd
 cd $wd
 echo "Testing in directory $wd"
 
-files='ticcutils timbl timblserver mbt mbtserver libfolia uctodata ucto frogdata frog dimbl foliautils toad ticcltools wopr'
+
+files='ticcutils timbl timblserver mbt mbtserver libfolia uctodata ucto frogdata frog dimbl foliautils toad ticcltools'
 for file in $files
 do
+    gh auth login --with-token < token
     gh release download -A tar.gz --repo https://github.com/LanguageMachines/$file
     echo "downloaded $file"
     tar zxf $file-*.tar.gz
